@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Kartu multimedia responsif untuk pembelajaran daring kampus."
+    />
+    <title>Pemutar Media Kuliah</title>
+    <link rel="stylesheet" href="03-tugas-style.css" />
+  </head>
+
+  <body>
+    <main class="page">
+      <header class="page__header">
+        <p class="page__eyebrow">E-Learning Kampus</p>
+
+        <h1 class="page__title">Pemutar Media Kuliah</h1>
+
+        <p class="page__subtitle">
+          Kartu multimedia responsif dengan ilustrasi sampul, video, dan audio.
+        </p>
+      </header>
+
+      <article class="media-card media-card--urgent">
+        <picture class="media-card__cover">
+          <source
+            media="(min-width: 768px)"
+            srcset="assets/original.webp"
+            type="image/webp"
+          />
+
+          <source
+            media="(max-width: 767px)"
+            srcset="assets/rezize.webp"
+            type="image/webp"
+          />
+
+          <img
+            class="media-card__image"
+            src="assets/original.webp"
+            alt="Ilustrasi Materi Kuliah"
+          />
+        </picture>
+
+        <div class="media-card__content">
+          <h2 class="media-card__title">Pengantar Sistem Operasi</h2>
+
+          <p class="media-card__desc">
+            Pelajari eksekusi instruksi mesin, struktur file PDF, dan risiko
+            keamanannya. Silakan tonton video atau dengarkan audio di bawah ini.
+          </p>
+
+          <div class="media-card__media-wrapper">
+            <video
+              class="media-card__video"
+              controls
+              poster="assets/video-preview.png"
+            >
+              <source src="assets/video.mp4" type="video/mp4" />
+              <source src="assets/video.webm" type="video/webm" />
+              Maaf, browser Anda tidak mendukung tag video.
+            </video>
+          </div>
+
+          <div class="media-card__media-wrapper">
+            <audio class="media-card__audio" controls>
+              <source src="assets/audio.mp3" type="audio/mpeg" />
+              Maaf, browser Anda tidak mendukung tag audio.
+            </audio>
+          </div>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
