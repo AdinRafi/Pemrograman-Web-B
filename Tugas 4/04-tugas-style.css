@@ -87,3 +87,11 @@ body {
     grid-column: auto;
   }
 }
+
+/* Micro-Grid Kartu Artikel */
+.card-grid {
+  display: grid;
+  /* Membuat kartu otomatis berjejer dengan lebar minimal 250px */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
