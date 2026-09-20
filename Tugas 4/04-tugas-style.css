@@ -57,3 +57,33 @@ body {
     gap: 1.5rem;
   }
 }
+
+/* Tata Letak Utama (CSS Grid Makro) */
+.layout-wrapper {
+  display: grid;
+  gap: 1.5rem;
+  padding: 0 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  grid-template-columns: 1fr;
+}
+
+/* Mode Tablet (768px - 991px) */
+@media (min-width: 768px) {
+  .layout-wrapper {
+    grid-template-columns: 200px 1fr;
+  }
+  .sidebar-right {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mode Layar Lebar (>= 992px) */
+@media (min-width: 992px) {
+  .layout-wrapper {
+    grid-template-columns: 200px 1fr 220px;
+  }
+  .sidebar-right {
+    grid-column: auto;
+  }
+}
