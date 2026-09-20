@@ -5,3 +5,55 @@
   margin: 0;
   padding: 0;
 }
+
+/* Pengaturan Tema Dasar */
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navigasi Flexbox Murni */
+.main-header {
+  background-color: #cc0000;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.main-nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.main-nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: color 0.2s;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.main-nav-link:hover {
+  color: white;
+}
+
+/* Flexbox Header untuk Tablet & Layar Lebar */
+@media (min-width: 768px) {
+  .main-header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .main-nav {
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
