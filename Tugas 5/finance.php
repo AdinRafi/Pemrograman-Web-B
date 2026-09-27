@@ -4,8 +4,13 @@ session_start();
 require_once __DIR__ . '/Transaction.php';
 
 // Inisialisasi saldo dan riwayat transaksi
-$_SESSION['balance'] = 0.00;
-$_SESSION['transactions'] = [];
+if (!isset($_SESSION['balance'])) {
+    $_SESSION['balance'] = 0.00;
+}
+
+if (!isset($_SESSION['transactions'])) {
+    $_SESSION['transactions'] = [];
+}
 
 // Buat CSRF token
 if (empty($_SESSION['csrf_token'])) {
@@ -67,3 +72,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance</title>
+</head>
+<body>
+    <h1>Transaksi</h1>
+    <?php if ($message): ?>
+        <p style="color: green;"><?=htmlspecialchars($message); ?></p>
+    <?php endif; ?>
+
+    <?php if ($error): ?>
+        <p style="color: red;"><?=htmlspecialchars($error); ?></p>
+    <?php endif; ?>
+
+    <form method="POST">
+        <input 
+            type="hidden" 
+            name="csrf_token" 
+            value="<?=htmlspecialchars($_SESSION['csrf_token']); ?>"
+        >
+        
+        <label for="type">Jenis transaksi:</label>
+        <select name="type" id="type" required>
+            <option value="deposit">Deposit</option>
+            <option value="withdraw">Penarikan</option>
+        </select>
+
+        <br><br>
+
+        <label for="amount">Jumlah:</label>
+        <input 
+            type="text" 
+            name="amount" 
+            id="amount" 
+            inputmode="decimal" 
+            pattern="\d+(?:\.\d{1,2})?" 
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">Proses</button>
+    </form>
+
+    <h2>Saldo</h2>  
+    <p>
+        Rp <?=htmlspecialchars(number_format($_SESSION['balance'], 2, ',', '.')); ?>
+    </p>
+</body>
