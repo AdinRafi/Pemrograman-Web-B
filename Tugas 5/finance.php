@@ -125,4 +125,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>
         Rp <?=htmlspecialchars(number_format($_SESSION['balance'], 2, ',', '.')); ?>
     </p>
+
+    <h2>Riwayat Transaksi</h2>
+    <?php if (!empty($_SESSION['transactions'])): ?>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Jenis</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_SESSION['transactions'] as $transaction): ?>
+                    <tr>
+                        <td><?=htmlspecialchars($transaction['id']); ?></td>
+                        <td><?=htmlspecialchars($transaction['type']); ?></td>
+                        <td>Rp <?=htmlspecialchars(number_format($transaction['amount'], 2, ',', '.')); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Belum ada transaksi.</p>
+    <?php endif; ?>
 </body>
