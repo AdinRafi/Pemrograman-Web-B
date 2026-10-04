@@ -47,13 +47,13 @@ Relasi antar-entitas pada sistem E-Library adalah:
 - Setiap buku berasal dari satu penerbit.
 - Satu peminjaman dapat memiliki banyak buku.
 - Satu buku dapat tercatat pada banyak transaksi peminjaman.
-- Relasi many-to-many antara Peminjaman dan Buku dipecahkan menggunakan `Detail_Peminjaman`.
+- Relasi many-to-many antara Transaksi \_Peminjaman dan Buku dipecahkan menggunakan `Detail_Peminjaman`.
 
 ```mermaid
 erDiagram
-    MAHASISWA ||--o{ PEMINJAMAN : "melakukan"
+    MAHASISWA ||--o{ TRANSAKSI_PEMINJAMAN : "melakukan"
     PENERBIT ||--o{ BUKU : "menerbitkan"
-    PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "memiliki item"
+    TRANSAKSI_PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "memiliki item"
     BUKU ||--o{ DETAIL_PEMINJAMAN : "tercatat sebagai item"
 
     MAHASISWA {
@@ -79,7 +79,7 @@ erDiagram
         varchar ID_Penerbit FK
     }
 
-    PEMINJAMAN {
+    TRANSAKSI_PEMINJAMAN {
         varchar ID_Peminjaman PK
         varchar NIM FK
         date Tanggal_Pinjam
