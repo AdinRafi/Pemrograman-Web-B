@@ -271,3 +271,103 @@ Dengan demikian, hasil akhir 3NF terdiri dari lima tabel:
 3. `BUKU`
 4. `TRANSAKSI_PEMINJAMAN`
 5. `DETAIL_PEMINJAMAN`
+
+## 4. Rancangan Tabel Akhir
+
+Berdasarkan hasil normalisasi hingga 3NF, diperoleh lima tabel akhir, yaitu `Mahasiswa`, `Penerbit`, `Buku`, `Transaksi_Peminjaman`, dan `Detail_Peminjaman`.
+
+### 4.1 Visualisasi ERD Final
+
+```mermaid
+erDiagram
+    MAHASISWA ||--o{ TRANSAKSI_PEMINJAMAN : "melakukan"
+    PENERBIT ||--o{ BUKU : "menerbitkan"
+    TRANSAKSI_PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "memiliki detail"
+    BUKU ||--o{ DETAIL_PEMINJAMAN : "dipinjam dalam"
+
+    MAHASISWA {
+        VARCHAR NIM PK
+        VARCHAR Nama_Lengkap
+        VARCHAR Fakultas
+        VARCHAR Program_Studi
+        VARCHAR No_Telepon
+    }
+
+    PENERBIT {
+        VARCHAR ID_Penerbit PK
+        VARCHAR Nama_Penerbit
+        VARCHAR Alamat_Kota
+        VARCHAR Email
+    }
+
+    BUKU {
+        VARCHAR ISBN PK
+        VARCHAR Judul_Buku
+        VARCHAR Pengarang
+        INT Tahun_Terbit
+        VARCHAR ID_Penerbit FK
+    }
+
+    TRANSAKSI_PEMINJAMAN {
+        VARCHAR ID_Peminjaman PK
+        VARCHAR NIM FK
+        DATE Tanggal_Pinjam
+        DATE Tanggal_Tenggat
+    }
+
+    DETAIL_PEMINJAMAN {
+        VARCHAR ID_Peminjaman PK,FK
+        VARCHAR ISBN PK,FK
+        DATE Tanggal_Kembali
+        DECIMAL Denda
+        ENUM Status_Pengembalian
+    }
+```
+
+### 4.2 Tabel Mahasiswa
+
+| Nama Kolom      | Tipe Data | Panjang | Keterangan              |
+| :-------------- | :-------- | :-----: | :---------------------- |
+| `NIM`           | VARCHAR   |   15    | **Primary Key**         |
+| `Nama_Lengkap`  | VARCHAR   |   100   | Not Null                |
+| `Fakultas`      | VARCHAR   |   50    | Not Null                |
+| `Program_Studi` | VARCHAR   |   50    | Not Null                |
+| `No_Telepon`    | VARCHAR   |   15    | Nomor telepon mahasiswa |
+
+### 4.3 Tabel Penerbit
+
+| Nama Kolom      | Tipe Data | Panjang | Keterangan           |
+| :-------------- | :-------- | :-----: | :------------------- |
+| `ID_Penerbit`   | VARCHAR   |   10    | **Primary Key**      |
+| `Nama_Penerbit` | VARCHAR   |   100   | Not Null             |
+| `Alamat_Kota`   | VARCHAR   |   50    | Kota/alamat penerbit |
+| `Email`         | VARCHAR   |   100   | Unique               |
+
+### 4.4 Tabel Buku
+
+| Nama Kolom     | Tipe Data |        Panjang         | Keterangan                 |
+| :------------- | :-------- | :--------------------: | :------------------------- |
+| `ISBN`         | VARCHAR   |           20           | **Primary Key**            |
+| `Judul_Buku`   | VARCHAR   |          200           | Not Null                   |
+| `Pengarang`    | VARCHAR   |          100           | Not Null                   |
+| `Tahun_Terbit` | INT       | Tahun penerbitan buku4 | Tahun penerbitan buku      |
+| `ID_Penerbit`  | VARCHAR   |           10           | **Foreign Key** (Penerbit) |
+
+### 4.5 Tabel Peminjaman
+
+| Nama Kolom        | Tipe Data | Panjang | Keterangan                  |
+| :---------------- | :-------- | :-----: | :-------------------------- |
+| `ID_Peminjaman`   | VARCHAR   |   15    | **Primary Key**             |
+| `NIM`             | VARCHAR   |   15    | **Foreign Key** (Mahasiswa) |
+| `Tanggal_Pinjam`  | DATE      |    -    | Not Null                    |
+| `Tanggal_Tenggat` | DATE      |    -    | Not Null                    |
+
+### 4.6 Tabel Detail_Peminjaman
+
+| Nama Kolom            | Tipe Data | Panjang | Keterangan                          |
+| :-------------------- | :-------- | :-----: | :---------------------------------- |
+| `ID_Peminjaman`       | VARCHAR   |   15    | **PK Komposit, FK** (Peminjaman)    |
+| `ISBN`                | VARCHAR   |   20    | **PK Komposit, FK** (Buku)          |
+| `Tanggal_Kembali`     | DATE      |    -    | Nullable, kosong jika belum kembali |
+| `Denda`               | DECIMAL   |  10,2   | Default 0                           |
+| `Status_Pengembalian` | ENUM      |    -    | `Dipinjam`, `Kembali`, `Terlambat`  |
