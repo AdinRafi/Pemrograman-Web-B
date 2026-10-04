@@ -282,9 +282,8 @@ Berdasarkan hasil normalisasi hingga 3NF, diperoleh lima tabel akhir, yaitu `Mah
 erDiagram
     MAHASISWA ||--o{ TRANSAKSI_PEMINJAMAN : "melakukan"
     PENERBIT ||--o{ BUKU : "menerbitkan"
-    TRANSAKSI_PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "memiliki detail"
-    BUKU ||--o{ DETAIL_PEMINJAMAN : "dipinjam dalam"
-
+    TRANSAKSI_PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : " detail"
+    BUKU ||--o{ DETAIL_PEMINJAMAN : "item"
     MAHASISWA {
         VARCHAR NIM PK
         VARCHAR Nama_Lengkap
