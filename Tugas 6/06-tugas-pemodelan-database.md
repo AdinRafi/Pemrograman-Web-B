@@ -106,6 +106,7 @@ erDiagram
     DATA_MENTAH_UNF {
         varchar ID_Peminjaman
         date Tanggal_Pinjam
+        date Tanggal_Tenggat
         varchar NIM
         varchar Nama_Mahasiswa
         varchar Fakultas
@@ -119,7 +120,7 @@ erDiagram
 - Judul_Buku
 - Pengarang
 - ID_Penerbit
-- Nama_Penerbit
+- Tahun_Terbit
 - Tanggal_Kembali
 
 Karena satu atribut masih dapat berisi lebih dari satu kelompok data buku, struktur tersebut belum memenuhi 1NF.
@@ -138,13 +139,14 @@ erDiagram
         varchar ID_Peminjaman PK
         varchar ISBN PK
         date Tanggal_Pinjam
+        date Tanggal_Tenggat
         varchar NIM
         varchar Nama_Mahasiswa
         varchar Fakultas
         varchar Judul_Buku
         varchar Pengarang
         varchar ID_Penerbit
-        varchar Nama_Penerbit
+        int Tahun_Terbit
         date Tanggal_Kembali
     }
 ```
@@ -154,3 +156,52 @@ Primary Key pada tahap 1NF adalah kombinasi:
 `ID_Peminjaman + ISBN`
 
 Kombinasi tersebut memastikan setiap buku dalam suatu transaksi peminjaman dapat diidentifikasi secara unik.
+
+## 3.3 Bentuk Normal Kedua (2NF)
+
+Pada 2NF, dependensi parsial dihilangkan.
+
+Atribut yang hanya bergantung pada `ID_Peminjaman` dipisahkan ke tabel `TRANSAKSI_PEMINJAMAN`.
+
+Atribut yang hanya bergantung pada `ISBN` dipisahkan ke tabel `BUKU`.
+
+Atribut yang bergantung pada kombinasi `ID_Peminjaman` dan `ISBN` ditaruh pada entitas baru, yaitu `DETAIL_PEMINJAMAN`.
+
+```mermaid
+erDiagram
+    TRANSAKSI_PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "memiliki"
+    BUKU ||--o{ DETAIL_PEMINJAMAN : "tercatat"
+
+    TRANSAKSI_PEMINJAMAN {
+        varchar ID_Peminjaman PK
+        varchar NIM
+        varchar Nama_Mahasiswa
+        varchar Fakultas
+        date Tanggal_Pinjam
+        date Tanggal_Tenggat
+    }
+
+    BUKU {
+        varchar ISBN PK
+        varchar Judul_Buku
+        varchar Pengarang
+        varchar ID_Penerbit
+        varchar Nama_Penerbit
+        int Tahun_Terbit
+    }
+
+    DETAIL_PEMINJAMAN {
+        varchar ID_Peminjaman PK,FK
+        varchar ISBN PK,FK
+        date Tanggal_Kembali
+        decimal Denda
+        varchar Status_Pengembalian
+    }
+```
+
+Pada tahap ini:
+
+- `ID_Peminjaman` menjadi Primary Key pada `TRANSAKSI_PEMINJAMAN`.
+- `ISBN` menjadi Primary Key pada `BUKU`.
+- Kombinasi `ID_Peminjaman` dan `ISBN` menjadi Primary Key komposit pada `DETAIL_PEMINJAMAN`.
+- `DETAIL_PEMINJAMAN` menjadi penghubung antara `TRANSAKSI_PEMINJAMAN` dan `BUKU`.
