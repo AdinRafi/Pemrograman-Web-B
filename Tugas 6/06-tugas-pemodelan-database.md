@@ -120,6 +120,7 @@ erDiagram
 - Judul_Buku
 - Pengarang
 - ID_Penerbit
+- Nama_Penerbit
 - Tahun_Terbit
 - Tanggal_Kembali
 
@@ -145,6 +146,7 @@ erDiagram
         varchar Fakultas
         varchar Judul_Buku
         varchar Pengarang
+        varchar Nama_Penerbit
         varchar ID_Penerbit
         int Tahun_Terbit
         date Tanggal_Kembali
@@ -205,3 +207,67 @@ Pada tahap ini:
 - `ISBN` menjadi Primary Key pada `BUKU`.
 - Kombinasi `ID_Peminjaman` dan `ISBN` menjadi Primary Key komposit pada `DETAIL_PEMINJAMAN`.
 - `DETAIL_PEMINJAMAN` menjadi penghubung antara `TRANSAKSI_PEMINJAMAN` dan `BUKU`.
+
+## 3.4 Bentuk Normal Ketiga (3NF)
+
+Pada 3NF, dependensi transitif dihilangkan.
+
+Pada tabel `TRANSAKSI_PEMINJAMAN`, `Nama_Mahasiswa` dan `Fakultas` bergantung pada `NIM`, bukan langsung pada `ID_Peminjaman`. Oleh karena itu, data tersebut dipisahkan menjadi tabel `MAHASISWA`.
+
+Pada tabel `BUKU`, `Nama_Penerbit` bergantung pada `ID_Penerbit`, bukan langsung pada `ISBN`. Oleh karena itu, data tersebut dipisahkan menjadi tabel `PENERBIT`.
+
+Hasil normalisasi 3NF:
+
+```mermaid
+erDiagram
+    MAHASISWA ||--o{ TRANSAKSI_PEMINJAMAN : "memiliki"
+    PENERBIT ||--o{ BUKU : "menerbitkan"
+    TRANSAKSI_PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "detail"
+    BUKU ||--o{ DETAIL_PEMINJAMAN : "item"
+
+    MAHASISWA {
+        varchar NIM PK
+        varchar Nama_Lengkap
+        varchar Fakultas
+        varchar Program_Studi
+        varchar No_Telepon
+    }
+
+    PENERBIT {
+        varchar ID_Penerbit PK
+        varchar Nama_Penerbit
+        varchar Alamat_Kota
+        varchar Email
+    }
+
+    TRANSAKSI_PEMINJAMAN {
+        varchar ID_Peminjaman PK
+        varchar NIM FK
+        date Tanggal_Pinjam
+        date Tanggal_Tenggat
+    }
+
+    BUKU {
+        varchar ISBN PK
+        varchar Judul_Buku
+        varchar Pengarang
+        int Tahun_Terbit
+        varchar ID_Penerbit FK
+    }
+
+    DETAIL_PEMINJAMAN {
+        varchar ID_Peminjaman PK,FK
+        varchar ISBN PK,FK
+        date Tanggal_Kembali
+        decimal Denda
+        varchar Status_Pengembalian
+    }
+```
+
+Dengan demikian, hasil akhir 3NF terdiri dari lima tabel:
+
+1. `MAHASISWA`
+2. `PENERBIT`
+3. `BUKU`
+4. `TRANSAKSI_PEMINJAMAN`
+5. `DETAIL_PEMINJAMAN`
