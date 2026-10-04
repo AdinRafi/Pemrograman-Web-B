@@ -123,3 +123,34 @@ erDiagram
 - Tanggal_Kembali
 
 Karena satu atribut masih dapat berisi lebih dari satu kelompok data buku, struktur tersebut belum memenuhi 1NF.
+
+### 3.2 Bentuk Normal Pertama (1NF)
+
+Pada tahap 1NF, repeating group dihilangkan. Setiap atribut harus memiliki nilai yang atomik.
+
+Jika satu transaksi meminjam tiga buku, maka transaksi tersebut dicatat menjadi tiga baris berbeda.
+
+Struktur tabel pada tahap 1NF:
+
+```mermaid
+erDiagram
+    TABEL_UNIVERSAL_1NF {
+        varchar ID_Peminjaman PK
+        varchar ISBN PK
+        date Tanggal_Pinjam
+        varchar NIM
+        varchar Nama_Mahasiswa
+        varchar Fakultas
+        varchar Judul_Buku
+        varchar Pengarang
+        varchar ID_Penerbit
+        varchar Nama_Penerbit
+        date Tanggal_Kembali
+    }
+```
+
+Primary Key pada tahap 1NF adalah kombinasi:
+
+`ID_Peminjaman + ISBN`
+
+Kombinasi tersebut memastikan setiap buku dalam suatu transaksi peminjaman dapat diidentifikasi secara unik.
