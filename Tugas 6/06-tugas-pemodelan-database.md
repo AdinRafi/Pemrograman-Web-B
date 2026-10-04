@@ -94,3 +94,32 @@ erDiagram
         varchar Status_Pengembalian
     }
 ```
+
+## 3. Simulasi Normalisasi
+
+### 3.1 Bentuk Tidak Normal (UNF)
+
+Pada tahap UNF, data peminjaman masih mengandung repeating group. Satu transaksi peminjaman dapat memiliki beberapa buku yang disimpan dalam `DAFTAR_BUKU`.
+
+```mermaid
+erDiagram
+    DATA_MENTAH_UNF {
+        varchar ID_Peminjaman
+        date Tanggal_Pinjam
+        varchar NIM
+        varchar Nama_Mahasiswa
+        varchar Fakultas
+        string DAFTAR_BUKU
+    }
+```
+
+`DAFTAR_BUKU` merupakan repeating group yang berisi beberapa data buku, yaitu:
+
+- ISBN
+- Judul_Buku
+- Pengarang
+- ID_Penerbit
+- Nama_Penerbit
+- Tanggal_Kembali
+
+Karena satu atribut masih dapat berisi lebih dari satu kelompok data buku, struktur tersebut belum memenuhi 1NF.
