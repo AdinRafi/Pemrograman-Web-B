@@ -36,3 +36,61 @@ Dalam perancangan basis data ini, terdapat 5 entitas utama (termasuk satu entita
    - `Tanggal_Kembali`
    - `Denda`
    - `Status_Pengembalian`
+
+## 2. Visualisasi Relasi Kunci (ERD)
+
+Relasi antar-entitas pada sistem E-Library adalah:
+
+- Mahasiswa dapat melakukan banyak peminjaman.
+- Setiap peminjaman dilakukan oleh satu mahasiswa.
+- Penerbit dapat menerbitkan banyak buku.
+- Setiap buku berasal dari satu penerbit.
+- Satu peminjaman dapat memiliki banyak buku.
+- Satu buku dapat tercatat pada banyak transaksi peminjaman.
+- Relasi many-to-many antara Peminjaman dan Buku dipecahkan menggunakan `Detail_Peminjaman`.
+
+```mermaid
+erDiagram
+    MAHASISWA ||--o{ PEMINJAMAN : "melakukan"
+    PENERBIT ||--o{ BUKU : "menerbitkan"
+    PEMINJAMAN ||--|{ DETAIL_PEMINJAMAN : "memiliki item"
+    BUKU ||--o{ DETAIL_PEMINJAMAN : "tercatat sebagai item"
+
+    MAHASISWA {
+        varchar NIM PK
+        varchar Nama_Lengkap
+        varchar Fakultas
+        varchar Program_Studi
+        varchar No_Telepon
+    }
+
+    PENERBIT {
+        varchar ID_Penerbit PK
+        varchar Nama_Penerbit
+        varchar Alamat_Kota
+        varchar Email
+    }
+
+    BUKU {
+        varchar ISBN PK
+        varchar Judul_Buku
+        varchar Pengarang
+        int Tahun_Terbit
+        varchar ID_Penerbit FK
+    }
+
+    PEMINJAMAN {
+        varchar ID_Peminjaman PK
+        varchar NIM FK
+        date Tanggal_Pinjam
+        date Tanggal_Tenggat
+    }
+
+    DETAIL_PEMINJAMAN {
+        varchar ID_Peminjaman PK,FK
+        varchar ISBN PK,FK
+        date Tanggal_Kembali
+        decimal Denda
+        varchar Status_Pengembalian
+    }
+```
